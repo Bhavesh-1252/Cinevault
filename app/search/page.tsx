@@ -5,7 +5,8 @@ import { searchMovies } from "@/lib/tmdb";
 export default async function SearchPage({ searchParams }: { searchParams: Promise<{ q?: string; page?: string }> }) {
     const params = await searchParams;
     const query = params.q?.trim() ?? "";
-    const page = Number(params.page) || 1;
+    const pageNum = Number(params.page);
+    const page = Number.isFinite(pageNum) && Number.isInteger(pageNum) && pageNum >= 1 && pageNum <= 500 ? pageNum : 1;
 
     if (!query) {
         return (

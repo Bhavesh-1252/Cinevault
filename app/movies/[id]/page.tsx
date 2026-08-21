@@ -26,7 +26,7 @@ export default async function MovieDetails({ params }: { params: Promise<{ id: s
 
             {
                 similarMovies.length > 0 && <div className="mt-5">
-                    <MovieCarousel title="Similar Movies" movies={similarMovies} />
+                    <MovieCarousel title="Similar Movies" movies={similarMovies} seeMoreUrl={undefined} />
                 </div>
             }
         </main>

@@ -40,9 +40,10 @@ export default function MovieCard({ id, title, posterPath, releaseDate, voteAver
                 </div>
 
                 {/* Hover actions */}
-                <div className="absolute inset-0 flex translate-y-4 items-center justify-around opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                <div className="absolute inset-0 flex translate-y-4 items-center justify-around opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100 touch-manipulation:translate-y-0 touch-manipulation:opacity-100">
                     <Link href={`/movies/${id}`}
                         type="button"
+                        aria-label={`Watch ${title}`}
                         className="flex items-center gap-1 cursor-pointer rounded-full bg-zinc-700 px-2 md:px-2 py-2 text-xs hover:bg-zinc-600 sm:py-2 sm:text-sm"
                     >
                         <PlayCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
@@ -51,6 +52,7 @@ export default function MovieCard({ id, title, posterPath, releaseDate, voteAver
 
                     <button
                         type="button"
+                        aria-label={`Add ${title} to favorites`}
                         className="flex items-center gap-1 cursor-pointer rounded-full bg-zinc-700 px-2 sm:px-3 py-2 text-xs hover:bg-zinc-600 sm:py-2 sm:text-sm"
                     >
                         <Heart className="h-3.5 w-3.5 sm:h-4 sm:w-4" />

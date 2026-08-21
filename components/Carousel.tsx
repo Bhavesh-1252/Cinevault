@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface Movie {
     id: number;
@@ -19,13 +19,22 @@ interface MovieSectionProps {
 
 export default function Carousel({ movies }: MovieSectionProps) {
     const [current, setCurrent] = useState(0);
-    const [slides, setSlides] = useState<Movie[]>([]);
 
-
-    useEffect(() => {
-        const shuffled = [...movies].sort(() => 0.5 - Math.random());
-        setSlides(shuffled.slice(0, 4));
+    // Derive slides without calling Math.random() in useMemo - use a deterministic shuffle based on movie IDs
+    const slides = useMemo(() => {
+        if (movies.length === 0) return [];
+        // Create a deterministic "random" order based on movie IDs
+        const sorted = [...movies].sort((a, b) => {
+            // Use movie IDs to create a deterministic but seemingly random order
+            const seedA = (a.id * 2654435761) % 2147483647;
+            const seedB = (b.id * 2654435761) % 2147483647;
+            return seedA - seedB;
+        });
+        return sorted.slice(0, 4);
     }, [movies]);
+
+    // Derive clamped current index at render time instead of setState in effect
+    const safeCurrent = slides.length > 0 ? Math.min(current, slides.length - 1) : 0;
 
     useEffect(() => {
         if (slides.length === 0) return;
@@ -44,7 +53,7 @@ export default function Carousel({ movies }: MovieSectionProps) {
             {slides.map((slide, index) => (
                 <div
                     key={slide.id}
-                    className={`absolute inset-0 transition-opacity duration-700 ${index === current
+                    className={`absolute inset-0 transition-opacity duration-700 ${index === safeCurrent
                             ? "pointer-events-auto opacity-100"
                             : "pointer-events-none opacity-0"
                         }`}
@@ -104,7 +113,7 @@ export default function Carousel({ movies }: MovieSectionProps) {
                         key={index}
                         onClick={() => setCurrent(index)}
                         aria-label={`Go to slide ${index + 1}`}
-                        className={`h-1.5 cursor-pointer rounded-full transition-all sm:h-2 ${index === current
+                        className={`h-1.5 cursor-pointer rounded-full transition-all sm:h-2 ${index === safeCurrent
                                 ? "w-6 bg-white sm:w-8"
                                 : "w-1.5 bg-white/50 sm:w-2"
                             }`}

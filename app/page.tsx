@@ -10,9 +10,9 @@ export default async function Home() {
     <main className="mb-10 px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20">
       <Carousel movies={trending.results} />
 
-      <MovieCarousel title="Trending" movies={trending.results} />
-      <MovieCarousel title="Popular" movies={popular.results} />
-      <MovieCarousel title="Top Rated" movies={topRated.results} />
+      <MovieCarousel title="Trending" movies={trending.results} seeMoreUrl="/movies?page=1" />
+      <MovieCarousel title="Popular" movies={popular.results} seeMoreUrl="/movies?page=1" />
+      <MovieCarousel title="Top Rated" movies={topRated.results} seeMoreUrl="/movies?page=1" />
     </main>
   );
 }

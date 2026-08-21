@@ -26,7 +26,6 @@ const Navbar = () => {
                     <div className="flex items-center justify-center gap-5 text-sm sm:gap-8 sm:text-base lg:shrink-0 lg:text-lg">
                         <NavLink href="/" children="Home" />
                         <NavLink params="page=1" href="/movies" children="Movies" />
-                        <NavLink href="#" children="Genre" />
                     </div>
                 </div>
                 {/* Search */}

@@ -16,9 +16,10 @@ interface Movie {
 interface MovieSectionProps {
   title: string;
   movies: Movie[];
+  seeMoreUrl?: string;
 }
 
-export default function MovieCarousel({ title, movies }: MovieSectionProps) {
+export default function MovieCarousel({ title, movies, seeMoreUrl }: MovieSectionProps) {
   const rowRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "left" | "right") => {
@@ -34,7 +35,7 @@ export default function MovieCarousel({ title, movies }: MovieSectionProps) {
     <div className="mt-10">
       <div className="flex justify-between items-center">
         <h4 className="text-2xl mb-2">{title}</h4>
-        <Link href={"/movies?page=1"} className="text-sm underline ">See more</Link>
+        {seeMoreUrl && <Link href={seeMoreUrl} className="text-sm underline ">See more</Link>}
       </div>
       <div className="relative w-full">
         {/* Left Arrow */}

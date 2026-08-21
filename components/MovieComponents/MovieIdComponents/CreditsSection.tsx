@@ -10,9 +10,10 @@ interface CastMember {
 interface CrewMember {
     original_name: string;
     known_for_department: string;
+    department?: string;
+    job?: string;
     profile_path: string;
     popularity: number;
-    role: string;
 }
 
 interface CreditsSectionProps {
@@ -21,17 +22,19 @@ interface CreditsSectionProps {
 }
 
 export default function CreditsSection({ cast, crew }: CreditsSectionProps) {
-    const castPersons = cast.sort((a, b) => b.popularity - a.popularity).slice(0, 5);
-    crew = crew.sort((a, b) => b.popularity - a.popularity)
-    const crewCategory = ["Production", "Directing", "Sound", "Writing", "Visual Effects"]
-    const personCategory = ["Producer", "Director", "Sound Artist", "Writer", "VFX Artist"]
-    let crewPersons = [];
+    const castPersons = [...cast].sort((a, b) => b.popularity - a.popularity).slice(0, 5);
+    const sortedCrew = [...crew].sort((a, b) => b.popularity - a.popularity);
+    const crewDepartments = ["Production", "Directing", "Sound", "Writing", "Visual Effects"];
+    let crewPersons: Array<{ original_name: string; profile_path: string; role: string }> = [];
 
-    for (let i = 0; i < crewCategory.length; i++) {
-        let person = crew.find((a) => a.known_for_department === crewCategory[i]);
+    for (let i = 0; i < crewDepartments.length; i++) {
+        let person = sortedCrew.find((a) => a.department === crewDepartments[i] || a.known_for_department === crewDepartments[i]);
         if (person) {
-            person.role = personCategory[i];
-            crewPersons.push(person);
+            crewPersons.push({
+                original_name: person.original_name,
+                profile_path: person.profile_path,
+                role: person.job || person.known_for_department
+            });
         }
     }
 

@@ -18,8 +18,8 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
         return `${pathname}?${params.toString()}`
     }
 
-    let hasPrev = currentPage > 1;
-    let hasNext = currentPage < totalPages;
+    const hasPrev = currentPage > 1;
+    const hasNext = currentPage < totalPages;
 
     return (
         <div className="flex items-center justify-center gap-4 mt-10">
